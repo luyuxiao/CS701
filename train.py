@@ -32,11 +32,12 @@ batch_size = 32
 num_epochs = 200
 pre_trained = True
 feature_extract = True
-threshold = 0.1
+threshold = 0.5
 learning_rate = 0.01
 
 
 def test_model(model, dataloader, label_file):
+    # label from 1-103
     model.eval()  # Set model to evaluate mode
     iter = 0
     f1 = []
@@ -51,7 +52,7 @@ def test_model(model, dataloader, label_file):
             file.write(image_name[i])
             labels = torch.nonzero(preds[i])
             for label in labels:
-                file.write(" " + str(label.item()))
+                file.write(" " + str(label.item() + 1))
             file.write("\n")
         a = 0
     file.close()
@@ -82,7 +83,7 @@ def val_model(model, dataloader, criterion, optimizer, logger):
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 temp.append(outputs.detach().cpu().numpy())
-                preds = make_pred_list(num_classes, outputs, threshold=threshold)
+                preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
                 f1.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
                 f1_epoch.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
 
@@ -206,7 +207,7 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
     if model_name == "resnet":
         """ Resnet50
         """
-        model_ft = models.resnet50(pretrained=use_pretrained)
+        model_ft = models.resnet18(pretrained=use_pretrained)
         set_parameter_requires_grad(model_ft, feature_extract)
         num_ftrs = model_ft.fc.in_features
         model_ft.fc = nn.Linear(num_ftrs, num_classes)
@@ -316,7 +317,7 @@ if __name__ == "__main__":
 
     optimizer_ft = optim.SGD(params_to_update, lr=learning_rate, momentum=0.9)
     scheduler = optim.lr_scheduler.ExponentialLR(optimizer_ft, 0.97)
-    criterion = nn.BCEWithLogitsLoss()
+    criterion = nn.BCEWithLogitsLoss(reduction='sum')
     logger.info("model size (total): " + str(get_parameter_number(model_ft)['Total']))
     logger.info("model size (trainable): " + str(get_parameter_number(model_ft)['Trainable']))
     logger.info("batch size: %d" % batch_size)
