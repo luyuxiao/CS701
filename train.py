@@ -29,7 +29,7 @@ root_dir = '/home/yuxiao/CS701/logs'
 print_freq = 50
 num_classes = 103
 batch_size = 32
-num_epochs = 200
+num_epochs = 50
 pre_trained = True
 feature_extract = True
 
@@ -61,7 +61,9 @@ def test_model(model, dataloader, label_file):
 
 
 def val_model(model, dataloader, criterion, optimizer, logger):
-    temp = []
+    temp1 = []
+    temp2 = []
+    temp3 = []
     for epoch in range(1):
         for phase in ['val']:
             model.eval()  # Set model to evaluate mode
@@ -85,8 +87,10 @@ def val_model(model, dataloader, criterion, optimizer, logger):
                 # statistics
 
                 running_loss += loss.item() * inputs.size(0)
-                temp.append(outputs.detach().cpu().numpy())
+                temp1.append(outputs.detach().cpu().numpy())
                 preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
+                temp2.append(preds.detach().cpu().numpy())
+                temp3.append(labels.detach().cpu().numpy())
                 f1.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
                 f1_epoch.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
 
@@ -94,7 +98,9 @@ def val_model(model, dataloader, criterion, optimizer, logger):
             epoch_f1 = sum(f1_epoch) / len(f1_epoch)
 
             logger.info('{} Loss: {:.8f}'.format(phase, epoch_loss))
-    np.save( 'temp.npy', np.concatenate(temp, axis=0))
+    np.save('temp1.npy', np.concatenate(temp1, axis=0))
+    np.save('temp2.npy', np.concatenate(temp2, axis=0))
+    np.save('temp3.npy', np.concatenate(temp3, axis=0))
     logger.info('Best val Acc: {:4f}'.format(epoch_f1))
 
 

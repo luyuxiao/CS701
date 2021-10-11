@@ -6,11 +6,15 @@ Computer Vision and Deep Learning
 
 ~~And how to predict the label with the model output?~~
 
-Data augmentation?
+~~Data augmentation?~~
 
 Loss function hyperparameter (change mean to sum)?
 
 Overfitting!
 
 Bugs need to be fixed in trainging process!
+
+Plan to rewrite based on ASL
+
+Some ayalysis on the prediction show in the analysis folder
 
