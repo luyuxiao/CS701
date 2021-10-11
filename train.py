@@ -32,7 +32,9 @@ batch_size = 32
 num_epochs = 200
 pre_trained = True
 feature_extract = True
+
 threshold = 0.5
+
 learning_rate = 0.01
 
 
@@ -81,6 +83,7 @@ def val_model(model, dataloader, criterion, optimizer, logger):
                 loss = criterion(outputs, labels)
 
                 # statistics
+
                 running_loss += loss.item() * inputs.size(0)
                 temp.append(outputs.detach().cpu().numpy())
                 preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
@@ -207,7 +210,7 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
     if model_name == "resnet":
         """ Resnet50
         """
-        model_ft = models.resnet18(pretrained=use_pretrained)
+        model_ft = models.resnet152(pretrained=use_pretrained)
         set_parameter_requires_grad(model_ft, feature_extract)
         num_ftrs = model_ft.fc.in_features
         model_ft.fc = nn.Linear(num_ftrs, num_classes)
@@ -295,8 +298,20 @@ if __name__ == "__main__":
     model_ft, input_size = initialize_model(model_name, num_classes, feature_extract, use_pretrained=pre_trained)
     print("Initializing Datasets and Dataloaders...")
 
-    train_data = TorchDataset(filename=train_filename, image_dir=image_dir)
-    test1_data = TorchDataset(filename=test1_filename, image_dir=test1_image_dir)
+    train_data = TorchDataset(filename=train_filename, image_dir=image_dir, transform=transforms.Compose([
+            transforms.Resize(224),
+            transforms.RandomRotation(45),
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]))
+    test1_data = TorchDataset(filename=test1_filename, image_dir=test1_image_dir, transform= transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]))
     dataloaders_dict = {x: DataLoader(dataset=train_data, batch_size=batch_size, shuffle=False, num_workers=40) for x in ['train', 'val']}
     test1_dataloader = DataLoader(dataset=test1_data, batch_size=batch_size, shuffle=False, num_workers=40)
 

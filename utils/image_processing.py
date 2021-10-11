@@ -6,12 +6,13 @@
     @E-mail : pan_jinquan@163.com
     @Date   : 2019-02-14 15:34:50
 """
-
+import numpy
 import os
 import glob
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 def show_image(title, image):
@@ -65,13 +66,13 @@ def read_image(filename, resize_height=None, resize_width=None, normalization=Fa
     rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)  # 将BGR转为RGB
     # show_image(filename,rgb_image)
     # rgb_image=Image.open(filename)
-    rgb_image = resize_image(rgb_image, resize_height, resize_width)
-    rgb_image = np.asanyarray(rgb_image)
-    if normalization:
-        # 不能写成:rgb_image=rgb_image/255
-        rgb_image = rgb_image / 255.0
-    # show_image("src resize image",image)
-    return rgb_image
+    # rgb_image = resize_image(rgb_image, resize_height, resize_width)
+    # rgb_image = np.asanyarray(rgb_image)
+    # if normalization:
+    #     # 不能写成:rgb_image=rgb_image/255
+    #     rgb_image = rgb_image / 255.0
+    # # show_image("src resize image",image)
+    return Image.fromarray(rgb_image)
 
 
 def fast_read_image_roi(filename, orig_rect, ImreadModes=cv2.IMREAD_COLOR, normalization=False):

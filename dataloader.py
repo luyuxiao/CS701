@@ -8,7 +8,7 @@ import os
 
 
 class TorchDataset(Dataset):
-    def __init__(self, filename, image_dir, resize_height=224, resize_width=224, repeat=1):
+    def __init__(self, filename, image_dir, resize_height=224, resize_width=224, repeat=1, transform = None):
         '''
         :param filename: 数据文件TXT：格式：imge_name.jpg label1_id labe2_id
         :param image_dir: 图片路径：image_dir+imge_name.jpg构成图片的完整路径
@@ -29,7 +29,7 @@ class TorchDataset(Dataset):
         # 把shape=(H,W,C)的像素值范围为[0, 255]的PIL.Image或者numpy.ndarray数据
         # 转换成shape=(C,H,W)的像素数据，并且被归一化到[0.0, 1.0]的torch.FloatTensor类型。
         self.toTensor = transforms.ToTensor()
-
+        self.transform = transform
         '''class torchvision.transforms.Normalize(mean, std)
         此转换类作用于torch. * Tensor,给定均值(R, G, B) 和标准差(R, G, B)，
         用公式channel = (channel - mean) / std进行规范化。
@@ -42,7 +42,8 @@ class TorchDataset(Dataset):
         image_name, label = self.image_label_list[index]
         image_path = os.path.join(self.image_dir, image_name.replace('png', 'jpg'))
         img = self.load_data(image_path, self.resize_height, self.resize_width, normalization=False)
-        img = self.data_preproccess(img)
+        # img = self.data_preproccess(img)
+        img = self.transform(img)
         label = np.array(label)
         return img, label, image_name.replace('png', 'jpg')
 
