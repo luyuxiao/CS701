@@ -10,7 +10,7 @@ label = numpy.load('/home/yuxiao/CS701/temp3.npy')
 num_of_label = numpy.sum(label, axis=0)
 print(num_of_label)
 
-f1 = f1_loss(pred.T, label.T)
+f1 = f1_score(pred.T, label.T)
 print(f1)
 print(numpy.mean(f1))
 

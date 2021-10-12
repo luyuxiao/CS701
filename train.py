@@ -19,23 +19,25 @@ print("PyTorch Version: ", torch.__version__)
 print("Torchvision Version: ", torchvision.__version__)
 
 
-train_filename = "/home/yuxiao/public/train_label.txt"
+train_filename = "/home/yuxiao/public/my_train_label.txt"
+val_filename = "/home/yuxiao/public/my_val_label.txt"
 test1_filename = "/home/yuxiao/public/fake_test1_label.txt"
 image_dir = '/home/yuxiao/public/img_dir/train'
 test1_image_dir = '/home/yuxiao/public/img_dir/test1'
 pred_test1_file = ""
 model_name = "resnet"
 root_dir = '/home/yuxiao/CS701/logs'
+
 print_freq = 50
 num_classes = 103
 batch_size = 32
-num_epochs = 50
+num_epochs = 100
 pre_trained = True
 feature_extract = True
 
 threshold = 0.5
 
-learning_rate = 0.01
+learning_rate = 0.001
 
 
 def test_model(model, dataloader, label_file):
@@ -64,44 +66,55 @@ def val_model(model, dataloader, criterion, optimizer, logger):
     temp1 = []
     temp2 = []
     temp3 = []
-    for epoch in range(1):
-        for phase in ['val']:
-            model.eval()  # Set model to evaluate mode
+    for phase in ['val']:
+        model.eval()  # Set model to evaluate mode
 
-            running_loss = 0.0
-            running_corrects = 0
+        running_loss = 0.0
+        running_corrects = 0
 
-            # Iterate over data.
-            iter = 0
-            f1 = []
-            f1_epoch = []
-            for inputs, labels, _ in dataloader:
-                iter += 1
-                inputs = inputs.to(device)
-                labels = labels.to(device)
+        # Iterate over data.
+        iter = 0
+        f1 = []
+        precison = []
+        recall = []
+        f1_epoch = []
+        precision_epoch = []
+        recall_epoch = []
+        for inputs, labels, _ in dataloader:
+            iter += 1
+            inputs = inputs.to(device)
+            labels = labels.to(device)
 
-                optimizer.zero_grad()
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
 
-                # statistics
+            # statistics
 
-                running_loss += loss.item() * inputs.size(0)
-                temp1.append(outputs.detach().cpu().numpy())
-                preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
-                temp2.append(preds.detach().cpu().numpy())
-                temp3.append(labels.detach().cpu().numpy())
-                f1.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
-                f1_epoch.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
+            running_loss += loss.item() * inputs.size(0)
+            # temp1.append(outputs.detach().cpu().numpy())
+            preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
+            f, p, r = f1_score(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy())
+            # temp2.append(preds.detach().cpu().numpy())
+            # temp3.append(labels.detach().cpu().numpy())
+            # f1.extend(f1_score(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
+            f1_epoch.extend(f)
+            precision_epoch.extend(p)
+            recall_epoch.extend(r)
 
-            epoch_loss = running_loss / len(dataloader.dataset)
-            epoch_f1 = sum(f1_epoch) / len(f1_epoch)
+        epoch_loss = running_loss / len(dataloader.dataset)
+        epoch_f1 = sum(f1_epoch) / len(f1_epoch)
+        epoch_precision = sum(precision_epoch) / len(precision_epoch)
+        epoch_recall = sum(recall_epoch) / len(recall_epoch)
 
-            logger.info('{} Loss: {:.8f}'.format(phase, epoch_loss))
-    np.save('temp1.npy', np.concatenate(temp1, axis=0))
-    np.save('temp2.npy', np.concatenate(temp2, axis=0))
-    np.save('temp3.npy', np.concatenate(temp3, axis=0))
-    logger.info('Best val Acc: {:4f}'.format(epoch_f1))
+        logger.info('{} Loss: {:.8f}'.format(phase, epoch_loss))
+    # np.save('temp1.npy', np.concatenate(temp1, axis=0))
+    # np.save('temp2.npy', np.concatenate(temp2, axis=0))
+    # np.save('temp3.npy', np.concatenate(temp3, axis=0))
+    logger.info('val Acc: {:.8f}'.format(epoch_f1))
+    logger.info('val precision: {:.8f}'.format(epoch_precision))
+    logger.info('val recall: {:.8f}'.format(epoch_recall))
+    return epoch_f1
 
 
 def train_model(model, dataloaders, criterion, optimizer, scheduler, logger, num_epochs=25, is_inception=False):
@@ -128,7 +141,11 @@ def train_model(model, dataloaders, criterion, optimizer, scheduler, logger, num
             # Iterate over data.
             iter = 0
             f1 = []
+            precison = []
+            recall = []
             f1_epoch = []
+            precision_epoch = []
+            recall_epoch = []
             for inputs, labels, _ in dataloaders[phase]:
                 iter += 1
                 inputs = inputs.to(device)
@@ -164,25 +181,38 @@ def train_model(model, dataloaders, criterion, optimizer, scheduler, logger, num
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
-                f1.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
-                f1_epoch.extend(f1_loss(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy()))
+                f, p, r = f1_score(preds.cpu().detach().numpy(), labels.data.cpu().detach().numpy())
+                f1.extend(f)
+                f1_epoch.extend(f)
+                precison.extend(p)
+                precision_epoch.extend(p)
+                recall.extend(r)
+                recall_epoch.extend(r)
 
                 if (iter + 1) % print_freq == 0:
                     logger.info('{} f1: {:.4f}'.format(iter, sum(f1) / len(f1)))
                     # logger.info(f1)
                     # print(torch.sigmoid(outputs[0]))
                     f1 = []
+                    precison = []
+                    recall = []
 
             epoch_loss = running_loss / len(dataloaders[phase].dataset)
             epoch_f1 = sum(f1_epoch) / len(f1_epoch)
+            epoch_precision = sum(precision_epoch) / len(precision_epoch)
+            epoch_recall = sum(recall_epoch) / len(recall_epoch)
 
             logger.info('{} Loss: {:.8f}'.format(phase, epoch_loss))
             logger.info('{} f1: {:.8f}'.format(phase, epoch_f1))
+            logger.info('{} precision: {:.8f}'.format(phase, epoch_precision))
+            logger.info('{} recall: {:.8f}'.format(phase, epoch_recall))
             logger.info('lr: {:.8f}'.format(optimizer.state_dict()['param_groups'][0]['lr']))
 
+
+            val_f1 = val_model(model, dataloaders['val'], criterion, optimizer, logger)
             # deep copy the model
-            if epoch_f1 > best_f1:
-                best_f1 = epoch_f1
+            if val_f1 > best_f1:
+                best_f1 = val_f1
                 best_model_wts = copy.deepcopy(model.state_dict())
             if phase == 'train':
                 val_acc_history.append(epoch_f1)
@@ -195,7 +225,7 @@ def train_model(model, dataloaders, criterion, optimizer, scheduler, logger, num
     logger.info('Best val Acc: {:4f}'.format(best_f1))
 
     # load best model weights
-    model.load_state_dict(best_model_wts)
+    # model.load_state_dict(best_model_wts)
     # val_model(model, dataloaders['val'], criterion, optimizer, logger)
 
     return model, val_acc_history
@@ -216,7 +246,7 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
     if model_name == "resnet":
         """ Resnet50
         """
-        model_ft = models.resnet152(pretrained=use_pretrained)
+        model_ft = models.resnet18(pretrained=use_pretrained)
         set_parameter_requires_grad(model_ft, feature_extract)
         num_ftrs = model_ft.fc.in_features
         model_ft.fc = nn.Linear(num_ftrs, num_classes)
@@ -243,7 +273,7 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
     elif model_name == "squeezenet":
         """ Squeezenet
         """
-        model_ft = models.squeezenet1_0(pretrained=use_pretrained)
+        model_ft = models.squeezenet1_1(pretrained=use_pretrained)
         set_parameter_requires_grad(model_ft, feature_extract)
         model_ft.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1, 1), stride=(1, 1))
         model_ft.num_classes = num_classes
@@ -312,13 +342,21 @@ if __name__ == "__main__":
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]))
+    val_data = TorchDataset(filename=val_filename, image_dir=image_dir, transform=transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]))
     test1_data = TorchDataset(filename=test1_filename, image_dir=test1_image_dir, transform= transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]))
-    dataloaders_dict = {x: DataLoader(dataset=train_data, batch_size=batch_size, shuffle=False, num_workers=40) for x in ['train', 'val']}
+    datasets = {'train': train_data,
+                'val': val_data}
+    dataloaders_dict = {x: DataLoader(dataset=datasets[x], batch_size=batch_size, shuffle=True, num_workers=40) for x in ['train', 'val']}
     test1_dataloader = DataLoader(dataset=test1_data, batch_size=batch_size, shuffle=False, num_workers=40)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -337,8 +375,9 @@ if __name__ == "__main__":
                 print("\t", name)
 
     optimizer_ft = optim.SGD(params_to_update, lr=learning_rate, momentum=0.9)
-    scheduler = optim.lr_scheduler.ExponentialLR(optimizer_ft, 0.97)
+    scheduler = optim.lr_scheduler.ExponentialLR(optimizer_ft, 0.94)
     criterion = nn.BCEWithLogitsLoss(reduction='sum')
+    # criterion = f1_loss()
     logger.info("model size (total): " + str(get_parameter_number(model_ft)['Total']))
     logger.info("model size (trainable): " + str(get_parameter_number(model_ft)['Trainable']))
     logger.info("batch size: %d" % batch_size)
@@ -348,5 +387,5 @@ if __name__ == "__main__":
                                  is_inception=(model_name == "inception"))
     torch.save(model_ft, os.path.join(root_dir, log_dir, "best.pth.tar"))
     logger.info(hist)
-    val_model(model_ft, dataloaders_dict['val'], criterion, optimizer_ft, logger)
+    # val_model(model_ft, dataloaders_dict['val'], criterion, optimizer_ft, logger)
     test_model(model_ft, test1_dataloader, pred_test1_file)

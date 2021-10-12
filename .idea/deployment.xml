@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="yuxiao@10.0.104.74:22 (2)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="yuxiao@10.0.104.74:22 (3)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="luyuxiao@172.28.228.30:22">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="root@106.12.19.48:8098">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="ubuntu@3.0.52.27:22">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="yuxiao@10.0.104.74:22">
         <serverdata>
           <mappings>
@@ -30,6 +9,21 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="yuxiao@10.0.104.74:22 (2)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="yuxiao@10.0.104.74:22 (3)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/yuxiao/CS701" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

@@ -18,3 +18,6 @@ Plan to rewrite based on ASL
 
 Some ayalysis on the prediction show in the analysis folder
 
+If using BCE, the precision and recall are both low. If using f1 loss, the precision is lower but recall is much higher. Why?
+
+The f1 loss is not standard f1 loss,
