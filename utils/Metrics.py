@@ -57,6 +57,20 @@ class f1_loss(nn.Module):
         return cost.mean()
 
 
+class mixed_loss(nn.Module):
+    def __init__(self, reduction, alpha, epsilon=1e-15):
+        super().__init__()
+        self.epsilon = epsilon
+        self.reduction = reduction
+        self.alpha = alpha
+        self.f1_loss = f1_loss()
+        self.BCE_loss = nn.BCEWithLogitsLoss(reduction=self.reduction)
+
+    def forward(self, y_hat, y_true):
+        cost = self.alpha[0] * self.f1_loss(y_hat, y_true) + self.alpha[1] * self.BCE_loss(y_hat, y_true)
+        return cost
+
+
 if __name__ == "__main__":
     y_true = np.array([[1, 1, 0, 0, 1], [1, 0, 1, 1, 0], [0, 1, 1, 0, 0]])
     y_hat = np.array([[0, 1, 1, 1, 1], [1, 0, 0, 1, 1], [1, 0, 1, 0, 0]])

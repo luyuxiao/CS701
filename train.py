@@ -19,13 +19,16 @@ print("PyTorch Version: ", torch.__version__)
 print("Torchvision Version: ", torchvision.__version__)
 
 
-train_filename = "/home/yuxiao/public/my_train_label.txt"
+train_filename = "/home/yuxiao/public/train_label.txt"
 val_filename = "/home/yuxiao/public/my_val_label.txt"
 test1_filename = "/home/yuxiao/public/fake_test1_label.txt"
+
 image_dir = '/home/yuxiao/public/img_dir/train'
 test1_image_dir = '/home/yuxiao/public/img_dir/test1'
+
 pred_test1_file = ""
-model_name = "resnet"
+model_name = "vgg"
+
 root_dir = '/home/yuxiao/CS701/logs'
 
 print_freq = 50
@@ -33,11 +36,11 @@ num_classes = 103
 batch_size = 32
 num_epochs = 100
 pre_trained = True
-feature_extract = True
+feature_extract = False
 
 threshold = 0.5
 
-learning_rate = 0.001
+learning_rate = 0.0001
 
 
 def test_model(model, dataloader, label_file):
@@ -375,9 +378,11 @@ if __name__ == "__main__":
                 print("\t", name)
 
     optimizer_ft = optim.SGD(params_to_update, lr=learning_rate, momentum=0.9)
-    scheduler = optim.lr_scheduler.ExponentialLR(optimizer_ft, 0.94)
+    # optimizer_ft = optim.Adam(params_to_update, lr=learning_rate)
+    scheduler = optim.lr_scheduler.ExponentialLR(optimizer_ft, 0.97)
     criterion = nn.BCEWithLogitsLoss(reduction='sum')
     # criterion = f1_loss()
+    # criterion = mixed_loss('sum', [1000.0, 1.0])
     logger.info("model size (total): " + str(get_parameter_number(model_ft)['Total']))
     logger.info("model size (trainable): " + str(get_parameter_number(model_ft)['Trainable']))
     logger.info("batch size: %d" % batch_size)
@@ -386,6 +391,8 @@ if __name__ == "__main__":
     model_ft, hist = train_model(model_ft, dataloaders_dict, criterion, optimizer_ft, scheduler, logger, num_epochs=num_epochs,
                                  is_inception=(model_name == "inception"))
     torch.save(model_ft, os.path.join(root_dir, log_dir, "best.pth.tar"))
+    # model_dict = torch.load('/home/yuxiao/CS701/logs/2021-10-14_10:58:43/best.pth.tar').state_dict()
+    # model_ft.load_state_dict(model_dict)
     logger.info(hist)
     # val_model(model_ft, dataloaders_dict['val'], criterion, optimizer_ft, logger)
     test_model(model_ft, test1_dataloader, pred_test1_file)
