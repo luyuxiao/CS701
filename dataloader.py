@@ -1,3 +1,4 @@
+import numpy
 import torch
 from torch.autograd import Variable
 from torchvision import transforms
@@ -88,6 +89,40 @@ class TorchDataset(Dataset):
         '''
         data = self.toTensor(data)
         return data
+
+
+class CAMDataset(TorchDataset):
+    def __init__(self, filename, image_dir, resize_height=224, resize_width=224, repeat=1, transform = None):
+        self.image_label_list = self.read_file(filename)
+        self.image_dir = image_dir
+        self.len = len(self.image_label_list)
+        self.repeat = repeat
+        self.resize_height = resize_height
+        self.resize_width = resize_width
+
+        self.toTensor = transforms.ToTensor()
+        self.transform = transform
+
+    def __getitem__(self, i):
+        index = i % self.len
+        # print("i={},index={}".format(i, index))
+        image_name, label = self.image_label_list[index]
+        image_path = os.path.join(self.image_dir, image_name.replace('png', 'jpg'))
+        img = self.load_data(image_path, self.resize_height, self.resize_width, normalization=False)
+        # img = self.data_preproccess(img)
+        ms_img_list = []
+        if self.transform is not None:
+            img = self.transform(img)
+
+        size = [torch.tensor(img.size()[1]), torch.tensor(img.size()[2])]
+        # Tensor to Numpy
+        img = img.numpy()
+        ms_img_list.append(np.stack([img, np.flip(img, -1)], axis=0))
+        label = np.array(label)
+        # temp = torch.tensor(img.size()[1])
+        out = {'name': image_name.replace('png', 'jpg'), 'img': ms_img_list, 'size': size, 'label': torch.tensor(label)}
+        return out
+        # return img, label, image_name.replace('png', 'jpg')
 
 
 if __name__ == '__main__':

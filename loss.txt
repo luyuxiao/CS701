@@ -1,0 +1,545 @@
+ssh://yuxiao@10.0.104.74:22/home/yuxiao/anaconda3/envs/CS701/bin/python3 -u /home/yuxiao/CS701/CONTA/pseudo_mask/run_sample.py
+{'num_workers': 20, 'voc12_root': '/home/yuxiao/CS701/CONTA/pseudo_mask/FOOD103', 'train_list': '/home/yuxiao/CS701/CONTA/pseudo_mask/voc12/food103_mytrain.txt', 'val_list': '/home/yuxiao/CS701/CONTA/pseudo_mask/voc12/food103_myval.txt', 'infer_list': '/home/yuxiao/CS701/CONTA/pseudo_mask/voc12/food103_train.txt', 'chainer_eval_set': 'train', 'threshold': 0.5, 'cam_network': 'net.resnet50_cam', 'cam_crop_size': 512, 'cam_batch_size': 16, 'cam_num_epoches': 50, 'cam_learning_rate': 0.1, 'cam_weight_decay': 0.0001, 'cam_eval_thres': 0.15, 'cam_scales': (1.0, 0.5), 'conf_fg_thres': 0.3, 'conf_bg_thres': 0.05, 'irn_network': 'net.resnet50_irn', 'irn_crop_size': 512, 'irn_batch_size': 32, 'irn_num_epoches': 10, 'irn_learning_rate': 0.1, 'irn_weight_decay': 0.0001, 'beta': 10, 'exp_times': 8, 'ins_seg_bg_thres': 0.25, 'sem_seg_bg_thres': 0.25, 'log_name': '/data/yuxiao/final/sample_train_eval.log', 'cam_weights_name': '/data/yuxiao/final/sess/res50_cam.pth33.pth', 'irn_weights_name': '/data/yuxiao/final/sess/res50_irn.pth', 'cam_out_dir': '/data/yuxiao/final/result/cam', 'ir_label_out_dir': '/data/yuxiao/final/result/ir_label', 'sem_seg_out_dir': '/data/yuxiao/final/result/sem_seg', 'ins_seg_out_dir': '/data/yuxiao/final/result/ins_seg', 'train_cam_pass': True, 'make_cam_pass': False, 'eval_cam_pass': False, 'cam_to_ir_label_pass': False, 'train_irn_pass': False, 'make_ins_seg_pass': False, 'eval_ins_seg_pass': False, 'make_sem_seg_pass': False, 'eval_sem_seg_pass': False}
+step.train_cam: Sun Nov 14 13:24:12 2021
+Epoch 1/50
+step:    0/10900 loss:0.7032 imps:12.8 lr: 0.1000 etc:Sun Nov 14 17:11:36 2021
+micro/precision	0.033936651583710405
+micro/recall	0.5357142857142857
+micro/f1	0.06382978723404255
+step:  100/10900 loss:0.1352 imps:57.7 lr: 0.0992 etc:Sun Nov 14 14:14:37 2021
+micro/precision	0.13747228381374724
+micro/recall	0.03116621983914209
+micro/f1	0.05081273050129764
+step:  200/10900 loss:0.1176 imps:60.0 lr: 0.0983 etc:Sun Nov 14 14:12:44 2021
+micro/precision	0.3035230352303523
+micro/recall	0.056761550806655965
+micro/f1	0.09563794207642495
+3500 3500
+Epoch 2/50
+step:  300/10900 loss:0.1089 imps:15.8 lr: 0.0975 etc:Sun Nov 14 14:14:23 2021
+micro/precision	0.6443556443556444
+micro/recall	0.1365079365079365
+micro/f1	0.22528815927348936
+step:  400/10900 loss:0.1048 imps:26.8 lr: 0.0967 etc:Sun Nov 14 14:13:33 2021
+micro/precision	0.6512251148545176
+micro/recall	0.15953854811480023
+micro/f1	0.25629049269248155
+3500 3500
+Epoch 3/50
+step:  500/10900 loss:0.0982 imps:7.3 lr: 0.0959 etc:Sun Nov 14 14:14:07 2021
+micro/precision	0.7009916094584286
+micro/recall	0.2489840151720401
+micro/f1	0.36745301879248304
+step:  600/10900 loss:0.0960 imps:16.0 lr: 0.0950 etc:Sun Nov 14 14:13:37 2021
+micro/precision	0.6983190799174285
+micro/recall	0.2481660029343953
+micro/f1	0.36619500502590274
+3500 3500
+Epoch 4/50
+step:  700/10900 loss:0.0940 imps:3.7 lr: 0.0942 etc:Sun Nov 14 14:13:58 2021
+micro/precision	0.7311608961303462
+micro/recall	0.2759415833973866
+micro/f1	0.40066964285714285
+step:  800/10900 loss:0.0880 imps:10.6 lr: 0.0934 etc:Sun Nov 14 14:13:38 2021
+micro/precision	0.733926521239954
+micro/recall	0.3023173327027666
+micro/f1	0.4282364763021269
+3500 3500
+Epoch 5/50
+step:  900/10900 loss:0.0886 imps:1.6 lr: 0.0925 etc:Sun Nov 14 14:13:44 2021
+micro/precision	0.7231012658227848
+micro/recall	0.3073301950235373
+micro/f1	0.43133553563001414
+step: 1000/10900 loss:0.0838 imps:7.4 lr: 0.0917 etc:Sun Nov 14 14:13:30 2021
+micro/precision	0.7484662576687117
+micro/recall	0.3334244329051653
+micro/f1	0.4613348459065986
+3500 3500
+Epoch 6/50
+step: 1100/10900 loss:0.0833 imps:0.3 lr: 0.0909 etc:Sun Nov 14 14:13:36 2021
+micro/precision	0.7588235294117647
+micro/recall	0.36033519553072624
+micro/f1	0.4886363636363636
+step: 1200/10900 loss:0.0803 imps:5.2 lr: 0.0900 etc:Sun Nov 14 14:13:25 2021
+micro/precision	0.7650466688123592
+micro/recall	0.3776612646965364
+micro/f1	0.5056908839485161
+step: 1300/10900 loss:0.0783 imps:9.4 lr: 0.0892 etc:Sun Nov 14 14:13:15 2021
+micro/precision	0.7615915817165406
+micro/recall	0.38268341044282883
+micro/f1	0.50940283734741
+3500 3500
+Epoch 7/50
+step: 1400/10900 loss:0.0751 imps:3.7 lr: 0.0884 etc:Sun Nov 14 14:13:20 2021
+micro/precision	0.7841753343239227
+micro/recall	0.4166995657323332
+micro/f1	0.5442124258829595
+step: 1500/10900 loss:0.0750 imps:7.4 lr: 0.0875 etc:Sun Nov 14 14:13:12 2021
+micro/precision	0.784400544959128
+micro/recall	0.4194517803478736
+micro/f1	0.5466089123598172
+3500 3500
+Epoch 8/50
+step: 1600/10900 loss:0.0733 imps:2.5 lr: 0.0867 etc:Sun Nov 14 14:13:17 2021
+micro/precision	0.7877422262280307
+micro/recall	0.43493406319980094
+micro/f1	0.5604360371914076
+step: 1700/10900 loss:0.0726 imps:5.9 lr: 0.0858 etc:Sun Nov 14 14:13:10 2021
+micro/precision	0.7893772893772893
+micro/recall	0.43513377082281673
+micro/f1	0.561015294500488
+3500 3500
+Epoch 9/50
+step: 1800/10900 loss:0.0702 imps:1.6 lr: 0.0850 etc:Sun Nov 14 14:13:15 2021
+micro/precision	0.8045292014302742
+micro/recall	0.4766949152542373
+micro/f1	0.5986696230598669
+step: 1900/10900 loss:0.0695 imps:4.7 lr: 0.0842 etc:Sun Nov 14 14:13:09 2021
+micro/precision	0.8009040880503144
+micro/recall	0.4655014850354124
+micro/f1	0.5887877474353417
+3500 3500
+Epoch 10/50
+step: 2000/10900 loss:0.0674 imps:0.9 lr: 0.0833 etc:Sun Nov 14 14:13:11 2021
+micro/precision	0.8131021194605009
+micro/recall	0.4953051643192488
+micro/f1	0.6156090444930707
+step: 2100/10900 loss:0.0668 imps:3.7 lr: 0.0825 etc:Sun Nov 14 14:13:05 2021
+micro/precision	0.8049692172383466
+micro/recall	0.4832365364308342
+micro/f1	0.6039260969976905
+3500 3500
+Epoch 11/50
+step: 2200/10900 loss:0.0685 imps:0.3 lr: 0.0816 etc:Sun Nov 14 14:13:11 2021
+micro/precision	0.7921052631578948
+micro/recall	0.45537065052950076
+micro/f1	0.5782901056676273
+step: 2300/10900 loss:0.0643 imps:2.9 lr: 0.0808 etc:Sun Nov 14 14:13:06 2021
+micro/precision	0.8085995085995086
+micro/recall	0.49758088902328396
+micro/f1	0.616061400224635
+step: 2400/10900 loss:0.0635 imps:5.2 lr: 0.0799 etc:Sun Nov 14 14:13:02 2021
+micro/precision	0.8128746416471202
+micro/recall	0.5013260467732862
+micro/f1	0.620171993836059
+3500 3500
+Epoch 12/50
+step: 2500/10900 loss:0.0591 imps:2.2 lr: 0.0791 etc:Sun Nov 14 14:13:08 2021
+micro/precision	0.8272132080842585
+micro/recall	0.5370541489558307
+micro/f1	0.6512774540564769
+step: 2600/10900 loss:0.0610 imps:4.4 lr: 0.0783 etc:Sun Nov 14 14:13:03 2021
+micro/precision	0.8269123394751535
+micro/recall	0.5271400605089873
+micro/f1	0.6438430605368982
+3500 3500
+Epoch 13/50
+step: 2700/10900 loss:0.0600 imps:1.6 lr: 0.0774 etc:Sun Nov 14 14:13:05 2021
+micro/precision	0.8314926968293552
+micro/recall	0.5396531791907514
+micro/f1	0.6545148625911386
+step: 2800/10900 loss:0.0583 imps:3.7 lr: 0.0766 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8313035633739287
+micro/recall	0.5415809579782545
+micro/f1	0.6558718861209963
+3500 3500
+Epoch 14/50
+step: 2900/10900 loss:0.0554 imps:1.1 lr: 0.0757 etc:Sun Nov 14 14:13:03 2021
+micro/precision	0.8448922211808809
+micro/recall	0.57696
+micro/f1	0.6856816885339417
+step: 3000/10900 loss:0.0552 imps:3.1 lr: 0.0748 etc:Sun Nov 14 14:13:00 2021
+micro/precision	0.8415229417507322
+micro/recall	0.5733288992351181
+micro/f1	0.6820069888573876
+3500 3500
+Epoch 15/50
+step: 3100/10900 loss:0.0570 imps:0.7 lr: 0.0740 etc:Sun Nov 14 14:13:04 2021
+micro/precision	0.8376487053883834
+micro/recall	0.5730014360938248
+micro/f1	0.6805002842524162
+step: 3200/10900 loss:0.0534 imps:2.5 lr: 0.0731 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8400437238112589
+micro/recall	0.5808036276609144
+micro/f1	0.6867739052725648
+3500 3500
+Epoch 16/50
+step: 3300/10900 loss:0.0545 imps:0.3 lr: 0.0723 etc:Sun Nov 14 14:13:05 2021
+micro/precision	0.8548387096774194
+micro/recall	0.572972972972973
+micro/f1	0.6860841423948221
+step: 3400/10900 loss:0.0505 imps:2.0 lr: 0.0714 etc:Sun Nov 14 14:13:02 2021
+micro/precision	0.8511667017027539
+micro/recall	0.5979914340570078
+micro/f1	0.7024635669673838
+step: 3500/10900 loss:0.0524 imps:3.7 lr: 0.0706 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.847723704866562
+micro/recall	0.5956038761522099
+micro/f1	0.6996436999676091
+3500 3500
+Epoch 17/50
+step: 3600/10900 loss:0.0473 imps:1.6 lr: 0.0697 etc:Sun Nov 14 14:13:02 2021
+micro/precision	0.8634169884169884
+micro/recall	0.6309292893669547
+micro/f1	0.7290881304126338
+step: 3700/10900 loss:0.0499 imps:3.2 lr: 0.0689 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.8547732696897374
+micro/recall	0.6192081604426003
+micro/f1	0.7181672348105073
+3500 3500
+Epoch 18/50
+step: 3800/10900 loss:0.0468 imps:1.2 lr: 0.0680 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8601895734597157
+micro/recall	0.6372613561553654
+micro/f1	0.7321316021681584
+step: 3900/10900 loss:0.0478 imps:2.7 lr: 0.0671 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.8567002323780015
+micro/recall	0.6303790253633513
+micro/f1	0.7263175176489903
+3500 3500
+Epoch 19/50
+step: 4000/10900 loss:0.0457 imps:0.9 lr: 0.0663 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8616228929831439
+micro/recall	0.6371014492753623
+micro/f1	0.732544575904016
+step: 4100/10900 loss:0.0450 imps:2.3 lr: 0.0654 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.8623510836802067
+micro/recall	0.6414691437112962
+micro/f1	0.7356884834384375
+3500 3500
+Epoch 20/50
+step: 4200/10900 loss:0.0426 imps:0.6 lr: 0.0645 etc:Sun Nov 14 14:13:02 2021
+micro/precision	0.8685215493726132
+micro/recall	0.6870953819594303
+micro/f1	0.7672289156626506
+step: 4300/10900 loss:0.0427 imps:1.9 lr: 0.0637 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.8707998106956933
+micro/recall	0.6716962764662935
+micro/f1	0.7583980215703786
+3500 3500
+Epoch 21/50
+step: 4400/10900 loss:0.0412 imps:0.3 lr: 0.0628 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8736318407960199
+micro/recall	0.7132412672623883
+micro/f1	0.7853309481216458
+step: 4500/10900 loss:0.0403 imps:1.6 lr: 0.0619 etc:Sun Nov 14 14:12:58 2021
+micro/precision	0.8789728856168073
+micro/recall	0.6896308819385742
+micro/f1	0.7728743980421567
+3500 3500
+Epoch 22/50
+step: 4600/10900 loss:0.0405 imps:0.0 lr: 0.0611 etc:Sun Nov 14 14:13:01 2021
+micro/precision	0.8839285714285714
+micro/recall	0.7388059701492538
+micro/f1	0.8048780487804877
+step: 4700/10900 loss:0.0363 imps:1.3 lr: 0.0602 etc:Sun Nov 14 14:12:58 2021
+micro/precision	0.8891170431211499
+micro/recall	0.715347761440608
+micro/f1	0.7928224846653851
+step: 4800/10900 loss:0.0391 imps:2.5 lr: 0.0593 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.8866525423728814
+micro/recall	0.7043675839434487
+micro/f1	0.7850677671997374
+3500 3500
+Epoch 23/50
+step: 4900/10900 loss:0.0366 imps:1.0 lr: 0.0584 etc:Sun Nov 14 14:12:58 2021
+micro/precision	0.89119804400978
+micro/recall	0.7297297297297297
+micro/f1	0.802421574023115
+step: 5000/10900 loss:0.0366 imps:2.2 lr: 0.0576 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.8876212207644039
+micro/recall	0.7198371576609919
+micro/f1	0.794972666428243
+3500 3500
+Epoch 24/50
+step: 5100/10900 loss:0.0332 imps:0.7 lr: 0.0567 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.8929356357927787
+micro/recall	0.7492096944151738
+micro/f1	0.8147829823807478
+step: 5200/10900 loss:0.0351 imps:1.9 lr: 0.0558 etc:Sun Nov 14 14:12:57 2021
+micro/precision	0.8917532223751721
+micro/recall	0.7385986733001658
+micro/f1	0.8079823119224445
+3500 3500
+Epoch 25/50
+step: 5300/10900 loss:0.0320 imps:0.5 lr: 0.0549 etc:Sun Nov 14 14:12:59 2021
+micro/precision	0.9141480508103372
+micro/recall	0.7790220231429638
+micro/f1	0.8411930673115678
+step: 5400/10900 loss:0.0319 imps:1.6 lr: 0.0540 etc:Sun Nov 14 14:12:57 2021
+micro/precision	0.9015666158325246
+micro/recall	0.761029842012873
+micro/f1	0.8253585480390913
+3500 3500
+Epoch 26/50
+step: 5500/10900 loss:0.0313 imps:0.3 lr: 0.0531 etc:Sun Nov 14 14:12:58 2021
+micro/precision	0.914179104477612
+micro/recall	0.7970071567989591
+micro/f1	0.851581508515815
+step: 5600/10900 loss:0.0305 imps:1.3 lr: 0.0523 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9070391414141414
+micro/recall	0.7719274680993956
+micro/f1	0.8340468761338075
+3500 3500
+Epoch 27/50
+step: 5700/10900 loss:0.0298 imps:0.1 lr: 0.0514 etc:Sun Nov 14 14:12:58 2021
+micro/precision	0.9259259259259259
+micro/recall	0.7672634271099744
+micro/f1	0.8391608391608392
+step: 5800/10900 loss:0.0271 imps:1.1 lr: 0.0505 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9149925595238095
+micro/recall	0.7880487023389939
+micro/f1	0.8467894646238596
+step: 5900/10900 loss:0.0291 imps:2.1 lr: 0.0496 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9105519946426863
+micro/recall	0.783245556287031
+micro/f1	0.8421145764211457
+3500 3500
+Epoch 28/50
+step: 6000/10900 loss:0.0248 imps:0.9 lr: 0.0487 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9242965609647164
+micro/recall	0.8130033392260853
+micro/f1	0.8650851708642492
+step: 6100/10900 loss:0.0268 imps:1.8 lr: 0.0478 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9169237096442525
+micro/recall	0.8069127759681506
+micro/f1	0.8584079314659736
+3500 3500
+Epoch 29/50
+step: 6200/10900 loss:0.0252 imps:0.7 lr: 0.0469 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9242805252863928
+micro/recall	0.8284497871274731
+micro/f1	0.8737453777073427
+step: 6300/10900 loss:0.0233 imps:1.6 lr: 0.0460 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9247371952583314
+micro/recall	0.8303876280377586
+micro/f1	0.875026455026455
+3500 3500
+Epoch 30/50
+step: 6400/10900 loss:0.0237 imps:0.5 lr: 0.0451 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9316816816816816
+micro/recall	0.8376645291933851
+micro/f1	0.8821752265861027
+step: 6500/10900 loss:0.0231 imps:1.4 lr: 0.0442 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.926761976423376
+micro/recall	0.8329576194770063
+micro/f1	0.8773596105900511
+3500 3500
+Epoch 31/50
+step: 6600/10900 loss:0.0216 imps:0.3 lr: 0.0433 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9390243902439024
+micro/recall	0.8527131782945736
+micro/f1	0.893789901334881
+step: 6700/10900 loss:0.0207 imps:1.2 lr: 0.0424 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9346526195899773
+micro/recall	0.851491569390402
+micro/f1	0.8911361476856251
+3500 3500
+Epoch 32/50
+step: 6800/10900 loss:0.0199 imps:0.1 lr: 0.0415 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9512937595129376
+micro/recall	0.896700143472023
+micro/f1	0.9231905465288035
+step: 6900/10900 loss:0.0222 imps:1.0 lr: 0.0406 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9367131677441306
+micro/recall	0.8469466235963697
+micro/f1	0.8895710477421439
+step: 7000/10900 loss:0.0203 imps:1.8 lr: 0.0397 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9366427749756658
+micro/recall	0.85102106447982
+micro/f1	0.8917814566746703
+3500 3500
+Epoch 33/50
+step: 7100/10900 loss:0.0156 imps:0.8 lr: 0.0387 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9524469982167625
+micro/recall	0.8916713040252272
+micro/f1	0.9210576738838859
+step: 7200/10900 loss:0.0179 imps:1.6 lr: 0.0378 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9479560938682816
+micro/recall	0.8852169302818769
+micro/f1	0.9155129083847384
+3500 3500
+Epoch 34/50
+step: 7300/10900 loss:0.0152 imps:0.6 lr: 0.0369 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9548593981253083
+micro/recall	0.9021207177814029
+micro/f1	0.9277411623726781
+step: 7400/10900 loss:0.0166 imps:1.4 lr: 0.0360 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9485927926056704
+micro/recall	0.8914698418895178
+micro/f1	0.9191446540880502
+3500 3500
+Epoch 35/50
+step: 7500/10900 loss:0.0140 imps:0.4 lr: 0.0350 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9592908732764281
+micro/recall	0.9136960600375235
+micro/f1	0.9359385009609226
+step: 7600/10900 loss:0.0142 imps:1.2 lr: 0.0341 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9541738629821531
+micro/recall	0.9097595784389065
+micro/f1	0.9314375632235585
+3500 3500
+Epoch 36/50
+step: 7700/10900 loss:0.0148 imps:0.3 lr: 0.0332 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9583952451708767
+micro/recall	0.9123055162659123
+micro/f1	0.9347826086956522
+step: 7800/10900 loss:0.0127 imps:1.0 lr: 0.0323 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9567602873938602
+micro/recall	0.9153855768028997
+micro/f1	0.9356157383750638
+3500 3500
+Epoch 37/50
+step: 7900/10900 loss:0.0117 imps:0.1 lr: 0.0313 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9710444674250258
+micro/recall	0.9446680080482898
+micro/f1	0.9576746557878634
+step: 8000/10900 loss:0.0116 imps:0.9 lr: 0.0304 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9633578615407719
+micro/recall	0.9297101449275362
+micro/f1	0.9462349730806107
+step: 8100/10900 loss:0.0113 imps:1.6 lr: 0.0294 etc:Sun Nov 14 14:12:52 2021
+micro/precision	0.9642915375835643
+micro/recall	0.9271045618435492
+micro/f1	0.9453324808184144
+3500 3500
+Epoch 38/50
+step: 8200/10900 loss:0.0107 imps:0.7 lr: 0.0285 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9663685152057245
+micro/recall	0.9315399206759786
+micro/f1	0.948634647466854
+step: 8300/10900 loss:0.0103 imps:1.4 lr: 0.0275 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9652228053010762
+micro/recall	0.9339070567986231
+micro/f1	0.9493067401478371
+3500 3500
+Epoch 39/50
+step: 8400/10900 loss:0.0084 imps:0.6 lr: 0.0266 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9757670075589151
+micro/recall	0.950205672223425
+micro/f1	0.9628167160250083
+step: 8500/10900 loss:0.0095 imps:1.3 lr: 0.0256 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9726620119972466
+micro/recall	0.9451505016722408
+micro/f1	0.9587089270136667
+3500 3500
+Epoch 40/50
+step: 8600/10900 loss:0.0082 imps:0.4 lr: 0.0247 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.978917378917379
+micro/recall	0.960581492871121
+micro/f1	0.9696627628051362
+step: 8700/10900 loss:0.0074 imps:1.1 lr: 0.0237 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9769815418023887
+micro/recall	0.9571322199765983
+micro/f1	0.9669550265971737
+3500 3500
+Epoch 41/50
+step: 8800/10900 loss:0.0080 imps:0.3 lr: 0.0227 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9750317393144308
+micro/recall	0.9592006661115737
+micro/f1	0.9670514165792236
+step: 8900/10900 loss:0.0061 imps:0.9 lr: 0.0217 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9783459750428187
+micro/recall	0.9634939759036144
+micro/f1	0.9708631783416293
+3500 3500
+Epoch 42/50
+step: 9000/10900 loss:0.0063 imps:0.1 lr: 0.0208 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9806607574536664
+micro/recall	0.9697211155378486
+micro/f1	0.9751602564102564
+step: 9100/10900 loss:0.0056 imps:0.8 lr: 0.0198 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9834048640915594
+micro/recall	0.9692611393119007
+micro/f1	0.9762817781565118
+3500 3500
+Epoch 43/50
+step: 9200/10900 loss:0.0059 imps:0.0 lr: 0.0188 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9930555555555556
+micro/recall	0.9930555555555556
+micro/f1	0.9930555555555556
+step: 9300/10900 loss:0.0051 imps:0.7 lr: 0.0178 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9849246231155779
+micro/recall	0.9731876861966237
+micro/f1	0.9790209790209792
+step: 9400/10900 loss:0.0054 imps:1.3 lr: 0.0168 etc:Sun Nov 14 14:12:52 2021
+micro/precision	0.9836079497197214
+micro/recall	0.9700954933824761
+micro/f1	0.9768049932523617
+3500 3500
+Epoch 44/50
+step: 9500/10900 loss:0.0042 imps:0.5 lr: 0.0158 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.986650236188129
+micro/recall	0.9780130293159609
+micro/f1	0.9823126469686126
+step: 9600/10900 loss:0.0047 imps:1.1 lr: 0.0148 etc:Sun Nov 14 14:12:53 2021
+micro/precision	0.9858904877592973
+micro/recall	0.9764923646459972
+micro/f1	0.981168921746408
+3500 3500
+Epoch 45/50
+step: 9700/10900 loss:0.0038 imps:0.4 lr: 0.0137 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9887139107611549
+micro/recall	0.9845791949817041
+micro/f1	0.9866422210581457
+step: 9800/10900 loss:0.0035 imps:1.0 lr: 0.0127 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9897121479788008
+micro/recall	0.9837826670798471
+micro/f1	0.986738499792789
+3500 3500
+Epoch 46/50
+step: 9900/10900 loss:0.0035 imps:0.3 lr: 0.0116 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.98868351565447
+micro/recall	0.982383808095952
+micro/f1	0.9855235946606505
+step:10000/10900 loss:0.0036 imps:0.9 lr: 0.0106 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9884949518666354
+micro/recall	0.9812376179932408
+micro/f1	0.9848529153751682
+3500 3500
+Epoch 47/50
+step:10100/10900 loss:0.0032 imps:0.2 lr: 0.0095 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9867674858223062
+micro/recall	0.9805886036318097
+micro/f1	0.9836683417085428
+step:10200/10900 loss:0.0025 imps:0.7 lr: 0.0085 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9919257165926524
+micro/recall	0.9867469879518073
+micro/f1	0.9893295751962956
+3500 3500
+Epoch 48/50
+step:10300/10900 loss:0.0027 imps:0.0 lr: 0.0074 etc:Sun Nov 14 14:12:56 2021
+micro/precision	0.9912280701754386
+micro/recall	0.9847494553376906
+micro/f1	0.9879781420765027
+step:10400/10900 loss:0.0024 imps:0.6 lr: 0.0062 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.992822966507177
+micro/recall	0.9880952380952381
+micro/f1	0.9904534606205251
+step:10500/10900 loss:0.0027 imps:1.2 lr: 0.0051 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9930915371329879
+micro/recall	0.9879725085910653
+micro/f1	0.9905254091300603
+3500 3500
+Epoch 49/50
+step:10600/10900 loss:0.0023 imps:0.5 lr: 0.0039 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9949670925280681
+micro/recall	0.9899845916795069
+micro/f1	0.9924695887236917
+step:10700/10900 loss:0.0021 imps:1.1 lr: 0.0027 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9953875373066835
+micro/recall	0.9899262457276489
+micro/f1	0.9926493799323562
+3500 3500
+Epoch 50/50
+step:10800/10900 loss:0.0019 imps:0.4 lr: 0.0015 etc:Sun Nov 14 14:12:55 2021
+micro/precision	0.9955334987593052
+micro/recall	0.9908619412200543
+micro/f1	0.9931922267607377
+step:10900/10900 loss:0.0019 imps:0.9 lr: 0.0000 etc:Sun Nov 14 14:12:54 2021
+micro/precision	0.9965680831735136
+micro/recall	0.9919622224454938
+micro/f1	0.9942598187311179
+3500 3500
+
+Process finished with exit code 0

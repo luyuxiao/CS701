@@ -14,12 +14,14 @@ import time
 import os
 import copy
 import csv
-
+# import CONTA.pseudo_mask.net.resnet50_cam as resnet50_cam
+from model import *
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 print("PyTorch Version: ", torch.__version__)
 print("Torchvision Version: ", torchvision.__version__)
 
 
-train_filename = "/home/yuxiao/public/train_label.txt"
+train_filename = "/home/yuxiao/public/my_train_label.txt"
 val_filename = "/home/yuxiao/public/my_val_label.txt"
 test1_filename = "/home/yuxiao/public/fake_test1_label.txt"
 
@@ -34,13 +36,13 @@ root_dir = '/home/yuxiao/CS701/logs'
 print_freq = 50
 num_classes = 103
 batch_size = 32
-num_epochs = 100
+num_epochs = 50
 pre_trained = True
 feature_extract = False
 
 threshold = 0.5
 
-learning_rate = 0.0001
+learning_rate = 0.00001
 
 
 def test_model(model, dataloader, label_file):
@@ -54,10 +56,14 @@ def test_model(model, dataloader, label_file):
         iter += 1
         inputs = inputs.to(device)
         outputs = model(inputs)
-        preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
+        preds = torch.round(torch.sigmoid(outputs))
+        preds_, index = torch.max(torch.sigmoid(outputs), 1)
+        # preds = make_pred_list(num_classes, torch.sigmoid(outputs), threshold=threshold)
         for i in range(preds.shape[0]):
             file.write(image_name[i])
             labels = torch.nonzero(preds[i])
+            # if labels.shape[0] == 0:
+            #     file.write(" " + str(index[i].item() + 1))
             for label in labels:
                 file.write(" " + str(label.item() + 1))
             file.write("\n")
@@ -240,78 +246,6 @@ def set_parameter_requires_grad(model, feature_extracting):
             param.requires_grad = False
 
 
-def initialize_model(model_name, num_classes, feature_extract, use_pretrained=True):
-    # Initialize these variables which will be set in this if statement. Each of these
-    #   variables is model specific.
-    model_ft = None
-    input_size = 0
-
-    if model_name == "resnet":
-        """ Resnet50
-        """
-        model_ft = models.resnet18(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        num_ftrs = model_ft.fc.in_features
-        model_ft.fc = nn.Linear(num_ftrs, num_classes)
-        input_size = 224
-
-    elif model_name == "alexnet":
-        """ Alexnet
-        """
-        model_ft = models.alexnet(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        num_ftrs = model_ft.classifier[6].in_features
-        model_ft.classifier[6] = nn.Linear(num_ftrs, num_classes)
-        input_size = 224
-
-    elif model_name == "vgg":
-        """ VGG11_bn
-        """
-        model_ft = models.vgg11_bn(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        num_ftrs = model_ft.classifier[6].in_features
-        model_ft.classifier[6] = nn.Linear(num_ftrs, num_classes)
-        input_size = 224
-
-    elif model_name == "squeezenet":
-        """ Squeezenet
-        """
-        model_ft = models.squeezenet1_1(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        model_ft.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1, 1), stride=(1, 1))
-        model_ft.num_classes = num_classes
-        input_size = 224
-
-    elif model_name == "densenet":
-        """ Densenet
-        """
-        model_ft = models.densenet121(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        num_ftrs = model_ft.classifier.in_features
-        model_ft.classifier = nn.Linear(num_ftrs, num_classes)
-        input_size = 224
-
-    elif model_name == "inception":
-        """ Inception v3
-        Be careful, expects (299,299) sized images and has auxiliary output
-        """
-        model_ft = models.inception_v3(pretrained=use_pretrained)
-        set_parameter_requires_grad(model_ft, feature_extract)
-        # Handle the auxilary net
-        num_ftrs = model_ft.AuxLogits.fc.in_features
-        model_ft.AuxLogits.fc = nn.Linear(num_ftrs, num_classes)
-        # Handle the primary net
-        num_ftrs = model_ft.fc.in_features
-        model_ft.fc = nn.Linear(num_ftrs, num_classes)
-        input_size = 299
-
-    else:
-        print("Invalid model name, exiting...")
-        exit()
-
-    return model_ft, input_size
-
-
 if __name__ == "__main__":
     log_dir = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
     if not mkdir(os.path.join(root_dir, log_dir)):
@@ -335,6 +269,7 @@ if __name__ == "__main__":
     pred_test1_file = os.path.join(root_dir, log_dir, "label.txt")
 
     model_ft, input_size = initialize_model(model_name, num_classes, feature_extract, use_pretrained=pre_trained)
+    # model_ft = ResNet18_GAP()
     print("Initializing Datasets and Dataloaders...")
 
     train_data = TorchDataset(filename=train_filename, image_dir=image_dir, transform=transforms.Compose([
@@ -391,8 +326,8 @@ if __name__ == "__main__":
     model_ft, hist = train_model(model_ft, dataloaders_dict, criterion, optimizer_ft, scheduler, logger, num_epochs=num_epochs,
                                  is_inception=(model_name == "inception"))
     torch.save(model_ft, os.path.join(root_dir, log_dir, "best.pth.tar"))
-    # model_dict = torch.load('/home/yuxiao/CS701/logs/2021-10-14_10:58:43/best.pth.tar').state_dict()
+    # model_dict = torch.load('/home/yuxiao/CS701/logs/2021-10-13_18:14:52/best.pth.tar').state_dict()
     # model_ft.load_state_dict(model_dict)
     logger.info(hist)
-    # val_model(model_ft, dataloaders_dict['val'], criterion, optimizer_ft, logger)
-    test_model(model_ft, test1_dataloader, pred_test1_file)
+    val_model(model_ft, dataloaders_dict['val'], criterion, optimizer_ft, logger)
+    # test_model(model_ft, test1_dataloader, pred_test1_file)

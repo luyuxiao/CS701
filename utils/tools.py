@@ -3,9 +3,9 @@ import os
 
 
 def make_pred_list(num_classes, mask, threshold):
-    batch_size = mask.size(0)
-    result = torch.zeros(batch_size, num_classes)
-    ones = torch.ones(batch_size, num_classes)
+    # batch_size = mask.size(0)
+    # result = torch.zeros(batch_size, num_classes)
+    # ones = torch.ones(batch_size, num_classes)
     result = mask
     result[mask >= threshold] = 1
     result[mask < threshold] = 0
